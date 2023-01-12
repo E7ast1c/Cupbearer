@@ -9,12 +9,12 @@ import (
 )
 
 type PGConn struct {
-	ctx  context.Context
-	conn *pgx.Conn
+	Ctx  context.Context
+	Conn *pgx.Conn
 }
 
 func NewPGConn(ctx context.Context) *PGConn {
-	return &PGConn{ctx: ctx, conn: connect(ctx)}
+	return &PGConn{Ctx: ctx, Conn: connect(ctx)}
 }
 
 func connect(ctx context.Context) *pgx.Conn {

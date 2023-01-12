@@ -14,7 +14,6 @@ func TGConnect() {
 	}
 
 	bot.Debug = true
-
 	logrus.Printf("Authorized on account %s", bot.Self.UserName)
 
 	u := tgbotapi.NewUpdate(0)
