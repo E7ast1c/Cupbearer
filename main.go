@@ -3,18 +3,18 @@ package main
 import (
 	"context"
 
-	"github.com/E7ast1c/Cupbearer/configs"
-	"github.com/E7ast1c/Cupbearer/internal/cron"
+	Config "github.com/E7ast1c/Cupbearer/config"
 	"github.com/E7ast1c/Cupbearer/internal/database"
-	job "github.com/E7ast1c/Cupbearer/internal/job"
-	"github.com/E7ast1c/Cupbearer/internal/telegram"
+	"github.com/E7ast1c/Cupbearer/internal/job"
 )
 
 func main() {
 	ctx := context.Background()
-	configs.InitEnv()
-	dbConn := database.NewPGConn(ctx)
-	telegram.TGConnect()
 
-	cron.RunCron(job.NewHandler(dbConn.Ctx, dbConn.Conn))
+	appConfig := Config.BuildAppConfig()
+	dbConn := database.NewPGConn(ctx, appConfig.Pg)
+	// fiat_rate.CbrRate{TgConfig: appConfig.Tg}.Do()
+
+	handler := job.NewHandler(dbConn.Ctx, dbConn.Conn, appConfig)
+	handler.RunCron(ctx)
 }

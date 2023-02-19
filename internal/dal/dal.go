@@ -14,5 +14,5 @@ type DBExec struct {
 }
 
 func NewDBExec(conn *pgx.Conn) *DBExec {
-	return &DBExec{conn: conn}
+	return &DBExec{conn: *conn}
 }

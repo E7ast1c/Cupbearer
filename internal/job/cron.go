@@ -18,11 +18,13 @@ func (h Handler) RunCron(ctx context.Context) {
 		cron.Recover(cron.DefaultLogger), // or use cron.DefaultLogger
 	), cron.WithLogger(
 		cron.VerbosePrintfLogger(log.New(os.Stdout, "cron: ", log.LstdFlags))))
+
 	_, err := cj.AddFunc("@every 1m", h.ReadBirthdays)
 	if err != nil {
 		logrus.Error(err)
 	}
-	//cj.AddFunc("@every 1m", func() { fmt.Println("Every hour thirty") })
+
+	cj.AddFunc("@every 1m", func() { fmt.Println("Every hour thirty") })
 	cj.Start()
 
 	fmt.Println(cj.Entries())
